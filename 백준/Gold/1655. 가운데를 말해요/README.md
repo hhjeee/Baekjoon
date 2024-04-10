@@ -28,3 +28,7 @@
 
  <p>한 줄에 하나씩 N줄에 걸쳐 백준이의 동생이 말해야 하는 수를 순서대로 출력한다.</p>
 
+### 알게된 점
+기존 코드였던 `if(max_pq.size() - min_pq.size() > 1)` 에서 계속해서 segfault로 통과하지 못했다.
+priority_queue의 size() 메소드는 size_t 타입의 unsigned 정수를 반환한다. 따라서 max_pq.size()가 min_pq.size()보다 작을경우, 음수값이 아닌 양수값이 반환된다.
+(int)를 통해 타입을 명시적 int로 변환해주니 해결되었다. ( `if((int)max_pq.size() - (int)min_pq.size() > 1)` )
