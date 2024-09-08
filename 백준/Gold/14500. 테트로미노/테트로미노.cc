@@ -27,7 +27,6 @@ int main() {
         max1 = sum;
     }
   }
-
   // 세로 일자블록
   int max2 = 0;
   for (int i = 0; i < m; i++) {
@@ -39,19 +38,8 @@ int main() {
     }
   }
 
-  // 정사각형
-  //   int max3 = 0;
-  //   for (int i = 0; i < n - 1; i++) {
-  //     int sum = 0;
-  //     for (int j = 0; j < n - 1; j++) {
-  //       sum = arr[i][j] + arr[i][j + 1] + arr[i + 1][j] + arr[i + 1][j + 1];
-  //       if (sum > max3)
-  //         max3 = sum;
-  //     }
-  //   }
-
   // 3+1 모양(3이 가로)
-  int max4 = 0;
+  int max3 = 0;
   for (int i = 0; i < n; i++) {
     int sum = 0;
     for (int j = 0; j < m - 2; j++) {
@@ -68,12 +56,12 @@ int main() {
                   max(arr[i + 1][j + 1], arr[i + 1][j + 2]));
 
       sum = three + one;
-      if (sum > max4)
-        max4 = sum;
+      if (sum > max3)
+        max3 = sum;
     }
   }
   // 3+1 모양(3이 세로)
-  int max5 = 0;
+  int max4 = 0;
   for (int i = 0; i < m; i++) {
     int sum = 0;
     for (int j = 0; j < n - 2; j++) {
@@ -90,13 +78,13 @@ int main() {
                   max(arr[j + 1][i - 1], arr[j + 2][i - 1]));
 
       sum = three + one;
-      if (sum > max5)
-        max5 = sum;
+      if (sum > max4)
+        max4 = sum;
     }
   }
 
   // 2+2 가로
-  int max6 = 0;
+  int max5 = 0;
   for (int i = 0; i < n - 1; i++) {
     int sum = 0;
     for (int j = 0; j < m - 1; j++) {
@@ -115,12 +103,12 @@ int main() {
                    arr[i + 1][j] + arr[i + 1][j + 1]);
 
       sum = tmp + tmp2;
-      if (sum > max6)
-        max6 = sum;
+      if (sum > max5)
+        max5 = sum;
     }
   }
   // 2+2 세로
-  int max7 = 0;
+  int max6 = 0;
   for (int i = 0; i < n - 1; i++) {
     int sum = 0;
     for (int j = 0; j < m - 1; j++) {
@@ -139,15 +127,12 @@ int main() {
                    arr[i - 1][j + 1] + arr[i][j + 1]);
 
       sum = tmp + tmp2;
-      if (sum > max7)
-        max7 = sum;
+      if (sum > max6)
+        max6 = sum;
     }
   }
 
-  //   cout << max1 << ' ' << max2 << ' ' << max3 << ' ' << max4 << ' ' << max5
-  //        << ' ' << max6 << ' ' << max7;
-
-  int result = max(max(max(max1, max2), max(max4, max5)), max(max6, max7));
+  int result = max(max(max(max1, max2), max(max3, max4)), max(max5, max6));
   cout << result;
 
   return 0;
