@@ -43,9 +43,9 @@ int main() {
         for (int k = 1; k <= n; k++) {
           if (distance[k] == INT_MAX)
             continue;
-          for (auto &e : edge[k]) {
-            int v = e.first;
-            int cost = e.second;
+          for (int l = 0; l < edge[k].size(); l++) {
+            int v = edge[k][l].first;
+            int cost = edge[k][l].second;
             if (distance[v] > distance[k] + cost) {
               distance[v] = distance[k] + cost;
               updated = true;
@@ -60,9 +60,9 @@ int main() {
       for (int j = 1; j <= n; j++) {
         if (distance[j] == INT_MAX)
           continue;
-        for (auto &e : edge[j]) {
-          int v = e.first;
-          int cost = e.second;
+        for (int k = 0; k < edge[j].size(); k++) {
+          int v = edge[j][k].first;
+          int cost = edge[j][k].second;
           if (distance[v] > distance[j] + cost) {
             negative_cycle = true;
             break;
