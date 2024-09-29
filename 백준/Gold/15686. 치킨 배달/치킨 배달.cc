@@ -1,3 +1,4 @@
+// 15686
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -10,51 +11,45 @@ int main() {
   int n, m;
   cin >> n >> m;
 
-  vector<vector<int>> city(n + 1, vector<int>(n + 1));
-  int chicken_count = 0; // 치킨집수
+  vector<pair<int, int> > houses;
+  vector<pair<int, int> > chickens;
   for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= n; j++) {
       // 0 빈칸, 1 집 , 2 치킨집
-      cin >> city[i][j];
-      if (city[i][j] == 2) {
-        city[i][j] = chicken_count + 2;
-        chicken_count++;
-      }
+      int num;
+      cin >> num;
+      if (num == 1)
+        houses.push_back(make_pair(i, j));
+      if (num == 2)
+        chickens.push_back(make_pair(i, j));
     }
   }
 
-  vector<int> chicken(chicken_count, 1);
+  int chicken_count = chickens.size(); // 치킨집수
+  vector<int> selected_chicken(chicken_count, 1);
   for (int i = 0; i < chicken_count - m; i++) {
-    chicken[i] = 0;
+    selected_chicken[i] = 0;
   }
 
   int min_cd = 999999;
   do {
     int sum = 0;
-    vector<vector<int>> cd(n + 1, vector<int>(n + 1, 999999));
-    for (int i = 1; i <= n; i++) {
-      for (int j = 1; j <= n; j++) {
-        if (city[i][j] == 1) {
-          for (int k = 1; k <= n; k++) {
-            for (int l = 1; l <= n; l++) {
-              if (city[k][l] >= 2 && chicken[city[k][l] - 2] == 1) {
-                int chicken_distance = abs(i - k) + abs(j - l);
-                cd[i][j] = min(cd[i][j], chicken_distance);
-              }
-            }
-          }
+
+    for (int i = 0; i < houses.size(); i++) {
+      int cd = 999999;
+      for (int j = 0; j < chickens.size(); j++) {
+        if (selected_chicken[j] == 1) {
+          int chicken_distance = abs(houses[i].first - chickens[j].first) +
+                                 abs(houses[i].second - chickens[j].second);
+          cd = min(cd, chicken_distance);
         }
       }
+      sum += cd;
     }
-    for (int i = 1; i <= n; i++) {
-      for (int j = 1; j <= n; j++) {
-        if (city[i][j] == 1)
-          sum += cd[i][j];
-      }
-    }
+
     min_cd = min(min_cd, sum);
 
-  } while (next_permutation(chicken.begin(), chicken.end()));
+  } while (next_permutation(selected_chicken.begin(), selected_chicken.end()));
 
   cout << min_cd;
 
