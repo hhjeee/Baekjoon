@@ -133,8 +133,8 @@ fn execute_command(command: &[String], value: i32) -> String {
                 let a = stack.pop().unwrap();
                 let b = stack.pop().unwrap();
 
-                if ( a > 1_000_000_000 - b) || (a < -1_000_000_000 - b) {
-                    return "ERROR".to_string(); // 오버플로우 발생
+                if a > 1000000000 - b || a < -1000000000 - b {
+                    return "ERROR".to_string(); 
                 }
                 
                 stack.push(a + b);
@@ -146,16 +146,11 @@ fn execute_command(command: &[String], value: i32) -> String {
                 let a = stack.pop().unwrap();
                 let b = stack.pop().unwrap();
 
-                // if (b > 0 && a < 0 && b > 1_000_000_000 + a) || (b < 0 && a > 0 && b < -1_000_000_000 + a) {
-                //     return "ERROR".to_string(); // 오버플로우 발생
-                // }
-                
-                // stack.push(b - a);
-                let result = b.checked_sub(a);
-                match result {
-                    Some(val) if val.abs() <= 1_000_000_000 => stack.push(val),
-                    _ => return "ERROR".to_string(),
+                if  b > 1000000000 + a || b < -1000000000 + a {
+                    return "ERROR".to_string(); 
                 }
+                
+                stack.push(b - a);
             }
             "MUL" => {
                 if stack.len() < 2 {
@@ -163,16 +158,12 @@ fn execute_command(command: &[String], value: i32) -> String {
                 }
                 let a = stack.pop().unwrap();
                 let b = stack.pop().unwrap();
-                let result = a.checked_mul(b);
-                match result {
-                    Some(val) if val.abs() <= 1_000_000_000 => stack.push(val),
-                    _ => return "ERROR".to_string(),
+
+                if a != 0 && b != 0 && (a.abs() > 1000000000 / b.abs()) {
+                    return "ERROR".to_string(); 
                 }
-                // let result = a * b;
-                // if result.abs() > 1000000000 {
-                //     return "ERROR".to_string();
-                // }
-                // stack.push(result);
+            
+                stack.push(a * b);
             }
             "DIV" => {
                 if stack.len() < 2 {
