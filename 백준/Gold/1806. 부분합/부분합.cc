@@ -4,6 +4,9 @@
 using namespace std;
 
 int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(0);
+
   int n, s;
   cin >> n >> s;
 
@@ -31,10 +34,8 @@ int main() {
     }
   }
 
-  if (ans == 100001)
-    cout << 0;
-  else
-    cout << ans;
+  int result = (ans == 100001) ? 0 : ans;
+  cout << result;
 
   return 0;
 }
