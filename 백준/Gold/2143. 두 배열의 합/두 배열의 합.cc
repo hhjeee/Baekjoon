@@ -3,8 +3,7 @@
 #include <vector>
 using namespace std;
 
-vector<long long int> count_sum(vector<long long int> sum, vector<int> v,
-                                int len) {
+vector<int> count_sum(vector<int> sum, vector<int> v, int len) {
   for (int i = 0; i < len; i++) {
     int tmp = 0;
     for (int j = i; j < len; j++) {
@@ -24,7 +23,7 @@ int main() {
     cin >> a[i];
   }
 
-  vector<long long int> sum_a;
+  vector<int> sum_a;
   sum_a = count_sum(sum_a, a, n);
 
   cin >> m;
@@ -34,7 +33,7 @@ int main() {
     cin >> b[i];
   }
 
-  vector<long long int> sum_b;
+  vector<int> sum_b;
   sum_b = count_sum(sum_b, b, m);
 
   sort(sum_a.begin(), sum_a.end());
