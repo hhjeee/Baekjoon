@@ -1,55 +1,66 @@
+#include <algorithm>
 #include <iostream>
-#include <unordered_map>
 #include <vector>
 using namespace std;
-using ll = long long int;
 
+vector<long long int> count_sum(vector<long long int> sum, vector<int> v,
+                                int len) {
+  for (int i = 0; i < len; i++) {
+    int tmp = 0;
+    for (int j = i; j < len; j++) {
+      tmp += v[j];
+      sum.push_back(tmp);
+    }
+  }
+
+  return sum;
+}
 int main() {
-  ios_base::sync_with_stdio(false);
-  cin.tie(0);
-
   int t, n, m;
   cin >> t >> n;
+
   vector<int> a(n);
   for (int i = 0; i < n; i++) {
     cin >> a[i];
   }
 
+  vector<long long int> sum_a;
+  sum_a = count_sum(sum_a, a, n);
+
   cin >> m;
+
   vector<int> b(m);
   for (int i = 0; i < m; i++) {
     cin >> b[i];
   }
 
-  // 각 배열 내 원소 가능한 합 값 계산
-  unordered_map<ll, ll> sumA;
-  for (int i = 0; i < n; i++) {
-    ll sum = 0;
-    for (int j = i; j < n; j++) {
-      sum += a[j];
-      sumA[sum]++;
-    }
-  }
-  unordered_map<ll, ll> sumB;
-  for (int i = 0; i < m; i++) {
-    ll sum = 0;
-    for (int j = i; j < m; j++) {
-      sum += b[j];
-      sumB[sum]++;
-    }
-  }
+  vector<long long int> sum_b;
+  sum_b = count_sum(sum_b, b, m);
 
-  ll count = 0;
-  for (auto i = sumA.begin(); i != sumA.end(); i++) {
-    ll key_a = i->first;
-    ll find = t - key_a;
+  sort(sum_a.begin(), sum_a.end());
+  sort(sum_b.begin(), sum_b.end());
 
-    if (sumB.find(find) != sumB.end()) {
-      count += sumA[key_a] * sumB[find];
+  long long int a_pointer = 0;
+  long long int count = 0;
+  while (a_pointer < sum_a.size()) {
+    int cur_a = sum_a[a_pointer];
+    long long int cur_count_a;
+
+    cur_count_a = upper_bound(sum_a.begin(), sum_a.end(), cur_a) -
+                  lower_bound(sum_a.begin(), sum_a.end(), cur_a);
+
+    long long int cur_count_b =
+        upper_bound(sum_b.begin(), sum_b.end(), t - cur_a) -
+        lower_bound(sum_b.begin(), sum_b.end(), t - cur_a);
+
+    if (cur_count_b > 0) {
+      count += cur_count_a * cur_count_b;
     }
+
+    a_pointer += cur_count_a;
   }
 
-  cout << count << '\n';
+  cout << count;
 
   return 0;
 }
