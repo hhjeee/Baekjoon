@@ -40,14 +40,12 @@ int main() {
   sort(sum_a.begin(), sum_a.end());
   sort(sum_b.begin(), sum_b.end());
 
-  long long int a_pointer = 0;
+  int a_pointer = 0;
   long long int count = 0;
   while (a_pointer < sum_a.size()) {
     int cur_a = sum_a[a_pointer];
-    long long int cur_count_a;
-
-    cur_count_a = upper_bound(sum_a.begin(), sum_a.end(), cur_a) -
-                  lower_bound(sum_a.begin(), sum_a.end(), cur_a);
+    long long int cur_count_a = upper_bound(sum_a.begin(), sum_a.end(), cur_a) -
+                                lower_bound(sum_a.begin(), sum_a.end(), cur_a);
 
     long long int cur_count_b =
         upper_bound(sum_b.begin(), sum_b.end(), t - cur_a) -
