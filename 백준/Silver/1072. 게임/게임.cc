@@ -16,7 +16,7 @@ int main() {
     return 0;
   }
 
-  int left = 1, right = 2000000000;
+  int left = 1, right = 1000000000;
   int answer = -1;
   while (left <= right) {
     int mid = (left + right) / 2;
