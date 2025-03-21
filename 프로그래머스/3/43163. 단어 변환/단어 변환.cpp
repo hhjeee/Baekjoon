@@ -2,8 +2,10 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <queue>
 
 using namespace std;
+
 vector<int> visited;
 vector<vector<int>> adjList;
 
@@ -18,18 +20,22 @@ bool check_one_differ(string a, string b) {
     else return false;
 }
 
-int dfs(int cur, int depth, string target, vector<string> words){
-    visited[cur] = true;
-    if(words[cur].compare(target) == 0) return depth;
+void bfs(int start){
+    queue<int> q;
+    q.push(start);
+    visited[start] = 1;
     
-    for(int next : adjList[cur]) {
-        if(!visited[next]) {
-            int res = dfs(next, depth + 1, target, words);
-            if (res != -1) return res;
+    while(!q.empty()){
+        int top = q.front();
+        q.pop();
+        
+        for(int next : adjList[top]){
+            if(!visited[next]) {
+                visited[next] = visited[top]+1;
+                q.push(next);
+            }
         }
     }
-    
-    return -1;
 }
 
 int solution(string begin, string target, vector<string> words) {
@@ -45,7 +51,7 @@ int solution(string begin, string target, vector<string> words) {
     }
     
     int n = new_words.size();
-    visited.resize(n, false);
+    visited.resize(n, 0);
     adjList.resize(n);
     
     for(int i=0; i<n-1; i++){
@@ -57,8 +63,10 @@ int solution(string begin, string target, vector<string> words) {
         }
     }
     
-    int answer = dfs(0, 0, target, new_words);
-    if(answer == -1) return 0;
+    bfs(0);
+    
+    int target_idx = find(new_words.begin(), new_words.end(), target) - new_words.begin();
+    int answer = visited[target_idx]-1;
     
     return answer;
 }
