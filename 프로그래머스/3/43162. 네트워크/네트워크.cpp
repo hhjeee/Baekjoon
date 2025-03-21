@@ -1,35 +1,41 @@
-#include <string>
 #include <vector>
 #include <iostream>
-#include <queue>
+#include <algorithm>
 
 using namespace std;
 
-int solution(int n, vector<vector<int>> computers) {
-    vector<int> visited(n, 0);
-    int count = 0;
-    
+vector<int> parent;
+
+void init(int n) {
     for(int i=0; i<n; i++){
-        if(!visited[i]) {
-            count++;
-            
-            queue<int> q;
-            q.push(i);
-            visited[i]=1;
-            
-            while(!q.empty()) {
-                int top = q.front();
-                q.pop();
-                
-                for(int j=0; j<n; j++){
-                    if(computers[top][j] == 1 && !visited[j]){
-                        q.push(j);
-                        visited[j] = 1;
-                    }
-                }
-            }
-        }
+        parent[i] = i;
+    }
+}
+int find(int a){
+    if (parent[a] == a) return a;
+    return parent[a] = find(parent[a]);
+}
+void uni_on(int a, int b){
+    int aRoot = find(a);
+    int bRoot = find(b);
+    
+    if(aRoot != bRoot) parent[bRoot] = aRoot;
+}
+
+int solution(int n, vector<vector<int>> computers) {
+    parent.resize(n, 0);
+    init(n);
+    
+   for(int i=0; i<n-1; i++){
+       for(int j=i+1; j<n; j++){
+           if(computers[i][j] == 1) uni_on(i, j);
+       }
+   }
+    
+    vector<int> result;
+    for(int i=0; i<n; i++){
+        if(find(result.begin(), result.end(), find(i)) == result.end())                    result.push_back(parent[i]);
     }
     
-    return count;
+    return result.size();
 }
