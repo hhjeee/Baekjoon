@@ -36,22 +36,6 @@ int main() {
   cin >> n;
 
   vector<string> str(n);
-
-  //   map<char, long long int> m;
-  //   for (int i = 0; i < n; i++) {
-  //     cin >> str[i];
-  //     long long int place = 1;
-  //     for (int j = str[i].length() - 1; j >= 0; j--) {
-  //       // 기존수를 Z로 바꾸었을때의 차이를 w로
-  //       // 36의 50승에서 오버플로우 ?
-  //       char c = str[i][j];
-  //       long long int w = (35 - charToInt(c)) * place;
-
-  //       m[c] += w;
-  //       place *= 36;
-  //     }
-  //   }
-
   vector<vector<int>> w(36, vector<int>(50, 0));
   for (int i = 0; i < n; i++) {
     cin >> str[i];
