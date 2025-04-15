@@ -20,23 +20,16 @@ int main() {
   vector<vector<long long int>> sum(n + 1, vector<long long int>(n + 1, 0));
   for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= n; j++) {
-      if (j == 1)
-        sum[i][j] = table[i][j];
-      else
-        sum[i][j] = sum[i][j - 1] + table[i][j];
+      sum[i][j] = sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1] + table[i][j];
     }
   }
 
-  // n이 1024, m이 100,000 nlogn
-  // sum 최대 1024 * 1024 * 1000
   while (m--) {
     int x1, y1, x2, y2;
     cin >> x1 >> y1 >> x2 >> y2;
 
-    long long int result = 0;
-    for (int i = x1; i <= x2; i++) {
-      result += (sum[i][y2] - sum[i][y1 - 1]);
-    }
+    long long int result =
+        sum[x2][y2] - sum[x1-1][y2] - sum[x2][y1-1] + sum[x1-1][y1-1];
 
     cout << result << '\n';
   }
