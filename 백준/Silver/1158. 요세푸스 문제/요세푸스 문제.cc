@@ -1,7 +1,6 @@
 #include <algorithm>
 #include <iostream>
-#include <list>
-#include <vector>
+#include <queue>
 using namespace std;
 
 int main() {
@@ -11,26 +10,23 @@ int main() {
   int n, k;
   cin >> n >> k;
 
-  list<int> l;
+  queue<int> q;
   for (int i = 1; i <= n; i++)
-    l.push_back(i);
+    q.push(i);
 
   cout << "<";
-  auto iter = l.begin();
 
-  while (!l.empty()) {
-    for (int i = 0; i < k - 1; i++) {
-      iter++;
-      if (iter == l.end())
-        iter = l.begin();
+  while (!q.empty()) {
+    int tmp = k;
+    while (tmp--) {
+      int front = q.front();
+      q.pop();
+      if (tmp)
+        q.push(front);
+      else
+        cout << front;
     }
-
-    cout << *iter;
-    iter = l.erase(iter);
-
-    if (iter == l.end())
-      iter = l.begin();
-    if (!l.empty())
+    if (!q.empty())
       cout << ", ";
   }
 
