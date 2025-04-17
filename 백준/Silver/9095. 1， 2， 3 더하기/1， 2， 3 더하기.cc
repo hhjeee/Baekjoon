@@ -1,30 +1,29 @@
+#include <algorithm>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(0);
+
+  int t;
+  cin >> t;
+
+  vector<int> sum(11, 0);
+  sum[1] = 1;
+  sum[2] = 2;
+  sum[3] = 4;
+
+  for (int i = 4; i <= 10; i++) {
+    sum[i] = sum[i - 1] + sum[i - 2] + sum[i - 3];
+  }
+
+  while (t--) {
     int n;
     cin >> n;
+    cout << sum[n] << '\n';
+  }
 
-    int arr[11];
-    int sum[11];
-    int maxI = 0;
-
-    for(int i=0; i<n; i++) {
-        cin >> arr[i]; 
-        maxI = max(maxI, arr[i]);
-    }
-
-    sum[0] = 1;
-    sum[1] = 2;
-    sum[2] = 4;
-
-    for(int i=3; i<maxI; i++) {
-        sum[i] = sum[i-1] + sum[i-2] + sum[i-3];
-    }
-
-    for(int i=0; i<n; i++) {
-        cout << sum[arr[i]-1] << '\n';    
-    }
-
- return 0;
+  return 0;
 }
