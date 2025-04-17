@@ -1,6 +1,4 @@
-#include <algorithm>
 #include <iostream>
-#include <vector>
 #include <unordered_map>
 using namespace std;
 
@@ -23,7 +21,7 @@ int main() {
   while (m--) {
     string s;
     cin >> s;
-    if (um[s])
+    if (um.find(s) != um.end())
       count++;
   }
 
