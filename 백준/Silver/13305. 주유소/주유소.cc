@@ -19,21 +19,15 @@ int main() {
     cin >> price[i];
   }
 
-  long long int cur = 0;
   long long int sum = 0;
-  for (int i = 0; i < n - 1; i++) {
-    if (cur < dist[i]) {
-      cur += dist[i];
-      sum += dist[i] * price[i];
-    }
-    if (price[i] < price[i + 1]) {
-      cur += dist[i + 1];
-      sum += dist[i + 1] * price[i];
-    }
-    
-    cur -= dist[i];
-  }
+  long long int min_price = price[0];
 
+  for (int i = 0; i < n - 1; i++) {
+    if (min_price > price[i])
+      min_price = price[i];
+    sum += min_price * dist[i];
+  }
+  
   cout << sum;
 
   return 0;
