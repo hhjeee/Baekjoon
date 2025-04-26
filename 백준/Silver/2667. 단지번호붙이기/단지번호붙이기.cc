@@ -9,45 +9,40 @@ int dy[4] = {1, 0, -1, 0};
 
 int n;
 vector<vector<int>> map;
-vector<vector<bool>> visited;
 
-void bfs(int start_x, int start_y, int count) {
+int bfs(int sx, int sy) {
   queue<pair<int, int>> q;
+  vector<vector<bool>> visited(n, vector<bool>(n, false));
 
-  q.push({start_x, start_y});
-  map[start_x][start_y] = count;
+  q.push({sx, sy});
+  visited[sx][sy] = true;
+  map[sx][sy] = 0;
+
+  int count = 1;
 
   while (!q.empty()) {
     pair<int, int> cur = q.front();
     q.pop();
 
     for (int i = 0; i < 4; i++) {
-      int next_x = cur.first + dx[i];
-      int next_y = cur.second + dy[i];
+      int nx = cur.first + dx[i];
+      int ny = cur.second + dy[i];
 
-      if (next_x < 0 || next_x >= n || next_y < 0 || next_y >= n)
+      if (nx < 0 || nx >= n || ny < 0 || ny >= n)
         continue;
-      if (visited[next_x][next_y])
+      if (visited[nx][ny])
         continue;
 
-      if (map[next_x][next_y] == 1) {
-        q.push({next_x, next_y});
-        visited[next_x][next_y] = true;
-        map[next_x][next_y] = count;
+      if (map[nx][ny] == 1) {
+        count++;
+        q.push({nx, ny});
+        visited[nx][ny] = true;
+        map[nx][ny] = 0;
       }
     }
   }
-}
-int count_nums(int count) {
-  int sum = 0;
 
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n; j++) {
-      if (map[i][j] == count)
-        sum++;
-    }
-  }
-  return sum;
+  return count;
 }
 
 int main() {
@@ -57,33 +52,29 @@ int main() {
   cin >> n;
 
   map.resize(n, vector<int>(n));
-  visited.resize(n, vector<bool>(n, false));
-
   for (int i = 0; i < n; i++) {
-    string tmp;
-    cin >> tmp;
+    string s;
+    cin >> s;
     for (int j = 0; j < n; j++) {
-      map[i][j] = tmp[j] - 48;
+      map[i][j] = s[j] - '0';
     }
   }
 
-  int count = 2;
-  vector<int> result;
+  vector<int> count_list;
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       if (map[i][j] == 1) {
-        bfs(i, j, count);
-        count;
-        result.push_back(count_nums(count++));
-      } else
-        visited[i][j] = true;
+        count_list.push_back(bfs(i, j));
+      }
     }
   }
 
-  sort(result.begin(), result.end());
-  cout << result.size() << '\n';
-  for (int t : result)
-    cout << t << '\n';
+  sort(count_list.begin(), count_list.end());
+
+  cout << count_list.size() << '\n';
+  for (int n : count_list) {
+    cout << n << '\n';
+  }
 
   return 0;
 }
