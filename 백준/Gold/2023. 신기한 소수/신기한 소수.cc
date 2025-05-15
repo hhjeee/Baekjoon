@@ -8,15 +8,15 @@ int n;
 vector<int> result;
 
 bool checking_ok() {
-  string tmp = "";
-  for (int i = 0; i < result.size(); i++) {
-    tmp += to_string(result[i]);
+  int val = 0;
+  for (int i = 0; i < result.size(); ++i) {
+    val = val * 10 + result[i];
   }
 
-  int val = stoi(tmp);
   if (val == 1)
     return false;
-  for (int i = 2; i <= sqrt(val); i++) {
+
+  for (int i = 2; i <= sqrt(val); ++i) {
     if (val % i == 0)
       return false;
   }
