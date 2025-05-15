@@ -15,26 +15,20 @@ int main() {
     cin >> v[i];
   }
 
-  vector<int> sorted;
-  sorted.push_back(v[0]);
-  for (int i = 0; i < n; i++) {
-    if (v[i] > sorted.back()) {
-      sorted.push_back(v[i]);
-    } else {
-      int s = 0, e = sorted.size();
-      while (s < e) {
-        int mid = s + (e - s) / 2;
-        if (sorted[mid] < v[i]) {
-          s = mid + 1;
-        } else {
-          e = mid;
-        }
-      }
-      sorted[s] = v[i];
+  vector<int> result;
+  result.push_back(v[0]);
+
+  for (int i = 1; i < v.size(); i++) {
+    if (v[i] > result[result.size() - 1])
+      result.push_back(v[i]);
+    else {
+      int idx =
+          lower_bound(result.begin(), result.end(), v[i]) - result.begin();
+      result[idx] = v[i];
     }
   }
 
-  cout << sorted.size();
+  cout << result.size();
 
   return 0;
 }
